@@ -12,6 +12,8 @@ namespace Windownform_App
 {
     public partial class UCQLLH : UserControl
     {
+        DataBaseDataContext db = new DataBaseDataContext();
+
         public UCQLLH()
         {
             InitializeComponent();
@@ -19,7 +21,10 @@ namespace Windownform_App
 
         private void UCQLLH_Load(object sender, EventArgs e)
         {
-
+          
+            List<tbl_lophoc> dSLH = db.tbl_lophocs.ToList();
+            dgv_dSLH.DataSource = dSLH;
+        
         }
 
         private void label1_Click(object sender, EventArgs e)
