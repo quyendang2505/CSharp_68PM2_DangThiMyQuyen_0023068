@@ -44,7 +44,7 @@ namespace Windownform_App
             string password = txt_matkhau.Text.Trim();
 
             // Kiểm tra điều kiện: Tên đăng nhập là email, mật khẩu là MSSV
-            if (username == "dangthimyquyen1970@gmail.com" && password == "0023068")
+            if (username == "0023068@st.huce.edu.vn" && password == "0023068")
             {
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
