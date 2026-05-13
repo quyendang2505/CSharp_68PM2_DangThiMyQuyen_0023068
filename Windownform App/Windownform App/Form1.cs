@@ -39,11 +39,9 @@ namespace Windownform_App
 
         private void btn_dangnhap_Click(object sender, EventArgs e)
         {
-            // Lấy dữ liệu người dng nhập vào
             string username = txt_tendangnhap.Text.Trim();
             string password = txt_matkhau.Text.Trim();
 
-            // Kiểm tra điều kiện: Tên đăng nhập là email, mật khẩu là MSSV
             if (username == "0023068@st.huce.edu.vn" && password == "0023068")
             {
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
