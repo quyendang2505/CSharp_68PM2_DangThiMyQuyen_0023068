@@ -19,6 +19,7 @@ namespace Windownform_App
 
         private void frm_main_Load(object sender, EventArgs e)
         {
+ 
             UCQLSV ucQlsv = new UCQLSV();
             pnl_main.Controls.Clear();
             pnl_main.Controls.Add(ucQlsv);
@@ -33,7 +34,6 @@ namespace Windownform_App
 
         private void pnl_main_Paint(object sender, PaintEventArgs e)
         {
-
         }
     }
 }
