@@ -160,5 +160,27 @@ namespace Windownform_App
                 LoadData(); // Gọi lại hàm load dữ liệu
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtMSSV.Text)) return;
+
+            int id = int.Parse(txtMSSV.Text);
+            var sv = db.tbl_sinhviens.FirstOrDefault(s => s.id == id);
+
+            if (sv != null)
+            {
+                var confirm = MessageBox.Show("Bạn có chắc chắn muốn xóa sinh viên này?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (confirm == DialogResult.Yes)
+                {
+                    db.tbl_sinhviens.DeleteOnSubmit(sv);
+                    db.SubmitChanges();
+                    MessageBox.Show("Xóa thành công!");
+                    LoadData(); // Gọi lại hàm load dữ liệu
+
+                    txtMSSV.Clear();
+                    txt_hoten.Clear();
+                }
+            }
     }
 }
