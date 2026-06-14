@@ -38,7 +38,7 @@ namespace Windownform_App
         {
             List<tbl_sinhvien> dSSV = db.tbl_sinhviens.ToList();
             dgv_DSSV.DataSource = dSSV;
-            LoadData4LH();
+                        LoadData4LH();
 
 
 
