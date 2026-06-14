@@ -45,6 +45,9 @@ namespace Windownform_App
             if (username == "0023068@st.huce.edu.vn" && password == "0023068")
             {
                 MessageBox.Show("Đăng nhập thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                frm_main frm_Main = new frm_main();
+                frm_Main.Show();
+                this.Hide();
             }
             else
             {

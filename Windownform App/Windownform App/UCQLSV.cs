@@ -216,5 +216,21 @@ namespace Windownform_App
             currentPage = 1;
             LoadData();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            txtMSSV.Text = " ";
+            txt_hoten.Text = " ";
+            dt_ngaysinh.Value = DateTime.Now;
+            if (cbo_gioitinh.Items.Count > 0)
+            {
+                cbo_gioitinh.SelectedIndex = 0;
+            }
+            if (cbo_lop.Items.Count > 0)
+            {
+                cbo_lop.SelectedIndex = 0;
+            }
+
+        }
     }
 }
