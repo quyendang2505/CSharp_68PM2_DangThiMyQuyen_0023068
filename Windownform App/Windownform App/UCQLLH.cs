@@ -17,8 +17,19 @@ namespace Windownform_App
         public UCQLLH()
         {
             InitializeComponent();
+            dgv_dSLH.CellClick += dgv_dSLH_CellClick;
         }
-
+        private void dgv_dSLH_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgv_dSLH.Rows[e.RowIndex];
+                textBox1.Text = row.Cells["id"].Value?.ToString();
+                textBox2.Text = row.Cells["malop"].Value?.ToString();
+                textBox3.Text = row.Cells["tenlop"].Value?.ToString();
+                textBox4.Text = row.Cells["ghichu"].Value?.ToString();
+            }
+        }
         private void UCQLLH_Load(object sender, EventArgs e)
         {
           
@@ -45,6 +56,77 @@ namespace Windownform_App
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                tbl_lophoc lh = new tbl_lophoc();
+                lh.malop = textBox2.Text;
+                lh.tenlop = textBox3.Text;
+                lh.ghichu = textBox4.Text;
+
+                db.tbl_lophocs.InsertOnSubmit(lh);
+                db.SubmitChanges();
+                MessageBox.Show("Thêm lớp học thành công!");
+                // Gọi hàm load dữ liệu của bạn, giả sử là LoadData() hoặc gọi lại list
+                List<tbl_lophoc> dSLH = db.tbl_lophocs.ToList();
+                dgv_dSLH.DataSource = dSLH;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi: " + ex.Message);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox1.Text)) return;
+
+            int id = int.Parse(textBox1.Text);
+            var lh = db.tbl_lophocs.FirstOrDefault(l => l.id == id);
+
+            if (lh != null)
+            {
+                lh.malop = textBox2.Text;
+                lh.tenlop = textBox3.Text;
+                lh.ghichu = textBox4.Text;
+
+                db.SubmitChanges();
+                MessageBox.Show("Cập nhật thành công!");
+                dgv_dSLH.DataSource = db.tbl_lophocs.ToList();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox1.Text)) return;
+
+            int id = int.Parse(textBox1.Text);
+            var lh = db.tbl_lophocs.FirstOrDefault(l => l.id == id);
+
+            if (lh != null)
+            {
+                if (lh.tbl_sinhviens.Any())
+                {
+                    MessageBox.Show("Không thể xóa lớp này vì đang có sinh viên!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (MessageBox.Show("Xóa lớp học này?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    db.tbl_lophocs.DeleteOnSubmit(lh);
+                    db.SubmitChanges();
+                    MessageBox.Show("Xóa thành công!");
+                    dgv_dSLH.DataSource = db.tbl_lophocs.ToList();
+                }
+            }
         }
     }
 }

@@ -57,7 +57,7 @@ namespace Windownform_App
         {
             List<tbl_sinhvien> dSSV = db.tbl_sinhviens.ToList();
             dgv_DSSV.DataSource = dSSV;
-                        LoadData4LH();
+            LoadData4LH();
 
 
         }
@@ -121,7 +121,7 @@ namespace Windownform_App
             {
                 MessageBox.Show(ex.Message);
             }
-           
+
 
 
         }
@@ -209,7 +209,7 @@ namespace Windownform_App
                     txt_hoten.Clear();
                 }
             }
-    }
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -217,3 +217,4 @@ namespace Windownform_App
             LoadData();
         }
     }
+}
