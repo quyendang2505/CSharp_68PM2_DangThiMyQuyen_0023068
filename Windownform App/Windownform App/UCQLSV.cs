@@ -14,6 +14,9 @@ namespace Windownform_App
     public partial class UCQLSV : UserControl
     {
         DataBaseDataContext db = new DataBaseDataContext();
+        int currentPage = 1;
+        int pageSize = 10;
+        int totalRecords = 0;
         public UCQLSV()
         {
             InitializeComponent();
@@ -57,7 +60,6 @@ namespace Windownform_App
                         LoadData4LH();
 
 
-
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -67,22 +69,27 @@ namespace Windownform_App
 
         private void button6_Click(object sender, EventArgs e)
         {
-
+            currentPage = 1;
+            LoadData();
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-
+            currentPage--;
+            LoadData();
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
-
+            currentPage++;
+            LoadData();
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+            currentPage = totalPages;
+            LoadData();
         }
 
         private void btn_them_Click(object sender, EventArgs e)
@@ -120,8 +127,28 @@ namespace Windownform_App
         }
         public void LoadData()
         {
-            List<tbl_sinhvien> dSSV = db.tbl_sinhviens.ToList();
+            var query = db.tbl_sinhviens.AsQueryable();
+
+            // Logic Tìm kiếm
+            string keyword = textBox3.Text.Trim();
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                query = query.Where(s => s.id.ToString().Contains(keyword) ||
+                                         s.hoten.Contains(keyword) ||
+                                         s.malop.Contains(keyword));
+            }
+
+            // Logic Phân trang
+            totalRecords = query.Count();
+            int totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            var dSSV = query.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
             dgv_DSSV.DataSource = dSSV;
+
+            label1.Text = $"Trang {currentPage}/{Math.Max(1, totalPages)} | {totalRecords} bản ghi";
         }
         public void LoadData4LH()
         {
@@ -183,4 +210,10 @@ namespace Windownform_App
                 }
             }
     }
-}
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            currentPage = 1;
+            LoadData();
+        }
+    }
