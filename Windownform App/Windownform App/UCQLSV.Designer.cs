@@ -228,6 +228,7 @@
             this.button4.TabIndex = 28;
             this.button4.Text = "Sửa";
             this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button3
             // 

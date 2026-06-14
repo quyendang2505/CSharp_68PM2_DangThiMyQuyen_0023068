@@ -17,6 +17,22 @@ namespace Windownform_App
         public UCQLSV()
         {
             InitializeComponent();
+            dgv_DSSV.CellClick += dgv_DSSV_CellClick;
+        }
+        private void dgv_DSSV_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgv_DSSV.Rows[e.RowIndex];
+                txtMSSV.Text = row.Cells["id"].Value?.ToString();
+                txt_hoten.Text = row.Cells["hoten"].Value?.ToString();
+                cbo_gioitinh.Text = row.Cells["gioitinh"].Value?.ToString();
+
+                if (row.Cells["ngaysinh"].Value != null)
+                    dt_ngaysinh.Value = Convert.ToDateTime(row.Cells["ngaysinh"].Value);
+
+                cbo_lop.SelectedValue = row.Cells["malop"].Value?.ToString();
+            }
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -123,6 +139,26 @@ namespace Windownform_App
         private void cbo_gioitinh_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtMSSV.Text)) return;
+
+            int id = int.Parse(txtMSSV.Text);
+            var sv = db.tbl_sinhviens.FirstOrDefault(s => s.id == id);
+
+            if (sv != null)
+            {
+                sv.hoten = txt_hoten.Text;
+                sv.gioitinh = cbo_gioitinh.Text;
+                sv.ngaysinh = dt_ngaysinh.Value;
+                sv.malop = cbo_lop.SelectedValue.ToString();
+
+                db.SubmitChanges();
+                MessageBox.Show("Cập nhật thông tin thành công!");
+                LoadData(); // Gọi lại hàm load dữ liệu
+            }
         }
     }
 }
