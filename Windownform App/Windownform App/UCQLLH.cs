@@ -50,7 +50,40 @@ namespace Windownform_App
 
         private void button6_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(textBox2.Text))
+            {
+                MessageBox.Show("Vui lòng chọn một lớp học trên bảng trước!");
+                return;
+            }
 
+            string maLop = textBox2.Text;
+            var students = db.tbl_sinhviens.Where(s => s.malop == maLop).Select(s => new {
+                s.id,
+                s.hoten,
+                s.gioitinh,
+                s.ngaysinh
+            }).ToList();
+
+            if (students.Count == 0)
+            {
+                MessageBox.Show($"Lớp {maLop} hiện tại chưa có sinh viên.");
+                return;
+            }
+
+            Form frmSV = new Form();
+            frmSV.Text = "Danh sách sinh viên lớp: " + maLop;
+            frmSV.Size = new Size(600, 400);
+            frmSV.StartPosition = FormStartPosition.CenterParent;
+
+            DataGridView dgv = new DataGridView();
+            dgv.DataSource = students;
+            dgv.Dock = DockStyle.Fill;
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgv.AllowUserToAddRows = false;
+            dgv.ReadOnly = true;
+
+            frmSV.Controls.Add(dgv);
+            frmSV.ShowDialog();
         }
 
         private void label2_Click(object sender, EventArgs e)
